@@ -151,7 +151,7 @@ public class StudentDbUtil {
 			// get db connection
 			myConn = dataSource.getConnection();
 			//create sql update statement
-			String sql = "update student" + "set first_name=?, last_name=?, email=?"
+			String sql = "update student " + "set first_name=?, last_name=?, email=? "
 							+ "where id=?";
 			//prepare statement
 			myStmt = myConn.prepareStatement(sql);

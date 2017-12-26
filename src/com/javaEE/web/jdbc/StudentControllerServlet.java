@@ -60,9 +60,7 @@ public class StudentControllerServlet extends HttpServlet {
 			case "LIST":
 				listStudents(request, response);
 				break;
-			case "ADD":
-				addStudent(request, response);
-				break;
+
 			case "LOAD":
 				loadStudent(request, response);
 				break;
@@ -71,6 +69,7 @@ public class StudentControllerServlet extends HttpServlet {
 				break;
 			case "DELETE":
 				deleteStudent(request, response);
+				break;
 			default:
 				listStudents(request, response);
 			}
@@ -84,6 +83,25 @@ public class StudentControllerServlet extends HttpServlet {
 			}
 	}
 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			//read the "command" parameter
+			String theCommand = request.getParameter("command");
+			
+			//route to the appropriate method
+			switch(theCommand) {
+			case "ADD":
+				addStudent(request, response);
+				break;
+			default:
+				listStudents(request, response);
+			}
+		}
+		catch(Exception exc) {
+			throw new ServletException(exc);
+		}
+		
+	}
 
 	private void deleteStudent(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// read the student id from the form data
@@ -118,10 +136,13 @@ public class StudentControllerServlet extends HttpServlet {
 	private void loadStudent(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		// read student if from form data
 		String theStudentId = request.getParameter("studentId");
+		
 		//get student from database
 		Student theStudent = studentDbUtil.getStudent(theStudentId);
+		
 		//place student in the request attribute
 		request.setAttribute("THE_STUDENT", theStudent);
+		
 		//send to jsp page: update-student-form.jsp
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/update-student-form.jsp");
 		dispatcher.forward(request, response);
@@ -136,10 +157,14 @@ public class StudentControllerServlet extends HttpServlet {
 		
 		//create a new student object
 		Student theStudent = new Student(firstName, lastName, email);
+		
 		//add the new student to the database
 		studentDbUtil.addStudent(theStudent);
+		
 		//send back to the main page (the student list)
-		listStudents(request, response);
+		//send as Redirect to avoid multiple-browser reload issue
+		response.sendRedirect(request.getContextPath() + "/StudentControllerServlet?command=LIST");
+		//listStudents(request, response);
 	}
 
 

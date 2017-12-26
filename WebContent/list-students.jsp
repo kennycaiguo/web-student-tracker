@@ -42,9 +42,9 @@
 						<c:param name="command" value="DELETE"/>
 						<c:param name="studentId" value="${tempStudent.id}" />
 					</c:url>
-						<td> ${tempStudent.getFirstName} </td>
-						<td> ${tempStudent.getLastName} </td>
-						<td> ${tempStudent.getEmail} </td>
+						<td> ${tempStudent.getFirstName()} </td>
+						<td> ${tempStudent.lastName} </td>
+						<td> ${tempStudent.email} </td>
 						<td> 
 							<a href = "${updateLink}">Update</a>
 							|
