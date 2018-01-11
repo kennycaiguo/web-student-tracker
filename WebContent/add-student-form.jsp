@@ -10,7 +10,7 @@
 
 <div id ="wrapper">
 		<div id="header">
-			<h2>FooBar University</h2>
+			<h2>After School Center</h2>
 		</div>
 	</div>
 	
